@@ -2,12 +2,12 @@ import type { User as APIUser, DataEditUser, Presence } from "stoat-api";
 import { decodeTime } from "ulid";
 
 import type { UserCollection } from "../collections/UserCollection.js";
+import { hydrate } from "../hydration/index.js";
 import { U32_MAX, UserPermission } from "../permissions/definitions.js";
 
 import type { Channel } from "./Channel.js";
 import type { File } from "./File.js";
 import { UserProfile } from "./UserProfile.js";
-import { hydrate } from "../hydration/index.js";
 
 /**
  * User Class
@@ -229,16 +229,16 @@ export class User {
     this.#collection.updateUnderlyingObject(
       this.id,
       hydrate(
-	"user",
-	await this.#collection.client.api.patch(
-	  `/users/${
+        "user",
+        await this.#collection.client.api.patch(
+          `/users/${
             this.id === this.#collection.client.user?.id ? "@me" : this.id
-	  }`,
-	  data,
-	),
-	this.#collection.client,
-	false
-      )
+          }`,
+          data,
+        ),
+        this.#collection.client,
+        false,
+      ),
     );
   }
 

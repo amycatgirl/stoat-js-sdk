@@ -3,10 +3,10 @@ import { decodeTime } from "ulid";
 
 import type { BotCollection } from "../collections/BotCollection.js";
 import type { BotFlags } from "../hydration/bot.js";
+import { hydrate } from "../hydration/index.js";
 
 import { PublicBot } from "./PublicBot.js";
 import type { User } from "./User.js";
-import { hydrate } from "../hydration/index.js";
 
 /**
  * Bot Class
@@ -143,12 +143,12 @@ export class Bot {
     this.#collection.updateUnderlyingObject(
       this.id,
       hydrate(
-	"bot",
-	await this.#collection.client.api.patch(`/bots/${this.id as ""}`, data),
-	this.#collection.client,
-	false
-      )
-    ) 
+        "bot",
+        await this.#collection.client.api.patch(`/bots/${this.id as ""}`, data),
+        this.#collection.client,
+        false,
+      ),
+    );
   }
 
   /**
